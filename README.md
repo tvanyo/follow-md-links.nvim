@@ -1,11 +1,21 @@
 # follow-md-links.nvim
 
+## Reasons for the fork
+This fork fixes two issues with the original:  
+1. Deprecation warning for treesitter query parse
+2. Supports whitespace in titles
+
+Both fixes are entered as PRs to the original, but the developer has a life and if you need them now, then you need them now.
+
+---
+
 This neovim plugin allows you to follow markdown links by pressing enter when the cursor is positioned on a link. It supports:
 
 - absolute file paths (e.g. `[a file](/home/user/file.md)`)
 - relative file paths (e.g. `[a file](../somefile.txt)`)
 - file paths beginning with `~` (e.g. `[a file](~/folder/a_file)`).
 - reference links (e.g. `[a file][label]. [label]: ~/folder/a_file`)
+- reference links with whitespace (e.g. [a file][label]. [label]: <~/folder/a file>)
 - web links (e.g. `[wikipedia](https://wikipedia.org)`)
 
 Local files are opened in neovim and web links are opened with the default browser. Web links need to start with `https://` or `http://` to be identified properly.
@@ -15,11 +25,16 @@ This plugin is tested against the latest stable version of neovim. It might work
 ## Installation
 
 Packer:
-
 ```lua
 use {
-  'jghauser/follow-md-links.nvim'
+  'tvanyo/follow-md-links.nvim'
 }
+```
+Lazy:
+```lua
+require("lazy").setup({
+  "tvanyo/follow-md-links.nvim",
+})
 ```
 
 As this plugin uses [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) to identify links, you will need that plugin, and you will need to make sure you have the treesitter markdown and markdown_inline parsers installed. You can check whether that is the case by looking at the entries in `:checkhealth nvim-treesitter` (there should be a tick in the "H" column). If the markdown parsers are missing, install it with `TSInstall markdown markdown_inline` or by adding them to `ensure_installed` in your nvim-treesitter setup function.
